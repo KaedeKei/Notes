@@ -14,12 +14,10 @@ function connect(
 
 function register($login, $pass, $email)
 {
-    //удаление лишних символов из строки(пробелыб переносы строк, табуляции и т.д.)
     $login = trim(htmlspecialchars($login));
     $pass = trim(htmlspecialchars($pass));
     $email = trim(htmlspecialchars($email));
 
-    //проверка заполнения полей формы и соблюдения условий длины логина и пароля
     if ($login == "" || $pass == "" || $email == "") {
         echo "<h3><span style='color: red;'>Заполните все поля!</span></h3>";
         return false;
@@ -32,13 +30,12 @@ function register($login, $pass, $email)
         echo "<h3><span style='color: red;'>Длина пароля должна быть от 6 до 30 символов!</span></h3>";
         return false;
     }
-    //хэшированный пароль
     $hash_pass = md5($pass);
 
     $ins = "insert into users(login, pass, email, roleid) values('$login', '$hash_pass', '$email', 2)";
-    $link = connect(); //получение объекта подключения
-    $link->query($ins); //выполнение запроса
-    $link->close(); //закрытие подключения
+    $link = connect();
+    $link->query($ins);
+    $link->close(); 
     return true;
 }
 
